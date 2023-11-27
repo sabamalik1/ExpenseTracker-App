@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
 import AddTransaction from './AddTransaction'
 
-
-
 function Balance(props) {
   const [isAddTVisible , setToggle] = useState(true)
-
 
   return (
     <>
@@ -28,10 +25,7 @@ function Balance(props) {
       <div className='top-[5px] left-[200px] w-[190px] h-[60px] text-center absolute flex flex-col border-[1px]  border-rose-200 '
       isExpense={"true"}>
         <span className='font-serif text-red-50 font-bold'>Income</span><span className='font-bold text-[green]'>${props.income}</span></div>
-    </div>
-
-    
-    
+    </div> 
     
     </>
     

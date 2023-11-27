@@ -1,59 +1,55 @@
-import React, { useEffect, useState } from 'react'
+import React from "react";
 
 function Transaction(props) {
+  console.log(props.transactions);
 
-  const [filterTransaction, updateTxn] = useState(props.transactions)
-  const [searchText , updateSearchText] = useState("")
+  const handleDeleteTransaction = (id) => {
+    // Filter out the transaction with the specified id and update the transactions state
+    const updatedTransactions = props.transactions.filter(
+      (transaction) => transaction.id !== id
+    );
+    props.updateTransaction(updatedTransactions);
+  };
 
-  const filterData= () =>{
-    if(!searchText || !searchText.trim.length){
-      updateTxn(props.transaction)
-      return;
-    }
-    let txn = [...props.transactions]
-    txn = txn.filter((payload)=> 
-    payload.desc.toLowerCase().includes(searchText.toLowerCase().trim()))
-    updateTxn(txn)
-  }
-
-  const TransactionCell=() =>{
-    return(
-      <div className='top-[300px] left-[550px] w-[400px] h-[30px] ${type == "Expense" ? "bg-red-400" : " bg-teal-800"}  border-r-2 rounded border-[2px] border-black flex'
-      isExpense ={props.payload ?.type === "Expense"  }
-       >
-        <span>{props.payload.desc}</span>
-        <span>${props.payload.amount}</span>
+  const TransactionCell = (props) => {
+    return (
+      <div
+        className={`w-[400px] border rounded h-[40px] my-2  ml-24  ${
+          props.payload.type === "Expense" ? "bg-red-400" : "bg-teal-800"
+        } flex flex-col `}
+      >
+        <div className="flex flex-row px-2 py-2 ">
+          <span>{props.payload.desc}</span>
+          <span className="ml-auto">${props.payload.amount}</span>
+          <button
+            className="w-8 h-5 bg-slate-50 border rounded-sm ml-1 text-black px-1 "
+            onClick={() => handleDeleteTransaction(props.payload.id)}
+          >
+            del
+          </button>
+        </div>
       </div>
-    )
-  }
+    );
+  };
 
-  
-
-  useEffect(()=>filterData(searchText), [props.transactions])
-      
   return (
-    
     <div>
-      <h2 className='top-[425px] left-[550px] font-serif font-bold text-2xl absolute'>Transaction Details</h2>
-      <input className='top-[460px] left-[550px] w-[400px] h-[50px] py-px pl-px text-black rounded border-[1px]  absolute'
-      placeholder='Search'
-      value={searchText}
-      onChange={(e)=>{
-        updateSearchText(e.target.value)
-        filterData(e.target.value)
-      }}
-      />
-
-      {filterTransaction ?.length
-      ? filterTransaction.map((payload)=>(
-        <TransactionCell payload={payload}/>
-      ))  :""
-      }
-
+      <h2 className="top-[425px] left-[550px] font-serif font-bold text-3xl absolute  ">
+        Transaction Details
+      </h2>
+      <div className="top-[380px] relative overflow-y-auto h-48">
+        {props.transactions?.length
+          ? props.transactions.map((payload) => (
+              <TransactionCell
+                key={payload.id}
+                payload={payload}
+                onDelete={handleDeleteTransaction}
+              />
+            ))
+          : ""}
+      </div>
     </div>
-  )
+  );
 }
 
-export default Transaction
-
- 
+export default Transaction;

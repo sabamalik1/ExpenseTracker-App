@@ -14,6 +14,7 @@ function App() {
   const [income ,updateIncome] =useState(0)
 
   const PlusTransaction = (payload)=>{
+    
     const transactionArray =[...transactions]
     transactionArray.push(payload)
     updateTransaction(transactionArray)
@@ -40,11 +41,11 @@ function App() {
       <div className='text-center style font-bold  font-sarif text-5xl justify-center'>
       <h1 >Expense Tracker</h1>
       </div>
-      <Balance PlusTransaction={PlusTransaction}
+      <Balance  PlusTransaction={updateTransaction}
        expense={expense}
        income= {income}
        />
-      <Transaction transactions={transactions}/>
+      <Transaction transactions={transactions} updateTransaction={updateTransaction} />
       
     
     </div>
